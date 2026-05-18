@@ -426,7 +426,7 @@ button { font-family: var(--font-sans); cursor: pointer; border: none; backgroun
    ============================================================ */
 .partners-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 .partner-card {
@@ -560,6 +560,58 @@ button { font-family: var(--font-sans); cursor: pointer; border: none; backgroun
   color: var(--muted);
   min-height: 1.2rem;
   text-align: center;
+}
+
+/* ============================================================
+   LEADERSHIP
+   ============================================================ */
+.section-leadership { background: var(--white); }
+.leadership-grid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.leader-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.5rem 2rem;
+  min-width: 280px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.leader-card:hover {
+  border-color: #BDDDF5;
+  box-shadow: 0 4px 16px rgba(30,111,191,0.08);
+}
+.leader-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.leader-name {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 0.2rem;
+}
+.leader-role {
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--blue);
 }
 
 /* ============================================================

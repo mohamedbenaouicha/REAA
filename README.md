@@ -1,129 +1,90 @@
 # REAA — Research Organisation on Analytics and AI
-**Website: [reaa.tn](https://reaa.tn)**
 
-Official website for the Research Organisation on Analytics and AI (REAA), hosted on OVH.
+**Live site: [reaa-tn.github.io](https://reaa-tn.github.io)**  
+*(or your custom domain reaa.tn once configured)*
 
 ---
 
-## Project structure
+## Structure
 
 ```
 reaa-website/
-├── index.html          # Main single-page site
-├── css/
-│   └── style.css       # All styles
-├── js/
-│   └── main.js         # Navigation, animations, form UX
-├── assets/
-│   └── img/            # Place logos, photos here
+├── index.html
+├── css/style.css
+├── js/main.js
+├── assets/img/
+├── .github/workflows/deploy.yml   ← GitHub Pages CI/CD
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Local development
+## Déploiement sur GitHub Pages (étape par étape)
 
-No build step required — pure HTML/CSS/JS.
+### 1. Créer le dépôt GitHub
 
 ```bash
-# Clone the repo
-git clone https://github.com/<your-org>/reaa-website.git
-cd reaa-website
+git init
+git add .
+git commit -m "Initial commit — REAA website"
+```
 
-# Serve locally (Python 3)
+Créez un dépôt public sur GitHub, par exemple `reaa-tn/reaa-website`, puis :
+
+```bash
+git remote add origin https://github.com/reaa-tn/reaa-website.git
+git branch -M main
+git push -u origin main
+```
+
+### 2. Activer GitHub Pages
+
+Dans le dépôt GitHub :
+1. **Settings** → **Pages**
+2. Source : **GitHub Actions**
+3. Le workflow `.github/workflows/deploy.yml` se déclenche automatiquement à chaque push sur `main`
+
+Le site sera accessible à :
+```
+https://<votre-organisation>.github.io/<nom-du-repo>/
+```
+
+### 3. (Optionnel) Domaine personnalisé reaa.tn
+
+Dans **Settings → Pages → Custom domain**, saisissez `reaa.tn`.
+
+Ensuite, chez votre registrar DNS (OVH ou autre), ajoutez :
+
+| Type  | Nom  | Valeur                        |
+|-------|------|-------------------------------|
+| A     | @    | 185.199.108.153               |
+| A     | @    | 185.199.109.153               |
+| A     | @    | 185.199.110.153               |
+| A     | @    | 185.199.111.153               |
+| CNAME | www  | reaa-tn.github.io.            |
+
+GitHub Pages active le HTTPS automatiquement (Let's Encrypt).
+
+---
+
+## Développement local
+
+```bash
 python -m http.server 8080
-# Then open http://localhost:8080
+# → http://localhost:8080
 ```
 
 ---
 
-## Deployment on OVH (manual FTP/SFTP)
+## Checklist de personnalisation
 
-1. Log in to your [OVH Control Panel](https://www.ovhcloud.com/en/web-hosting/).
-2. Go to **Web Hosting → FTP / SSH**.
-3. Note your **FTP host**, **username**, and **password** (or create one).
-4. Using an FTP client (e.g. FileZilla or Cyberduck):
-   - Connect to your OVH server.
-   - Upload all files to the `www/` (or `public_html/`) root directory.
-5. Your site is live at **reaa.tn**.
-
-### Domain configuration (reaa.tn → OVH)
-
-In OVH DNS Zone, ensure:
-| Type | Name | Value |
-|------|------|-------|
-| A    | @    | `<OVH server IP>` |
-| A    | www  | `<OVH server IP>` |
-| CNAME| www  | reaa.tn. *(alternative)* |
+- [ ] Remplacer les logos placeholder des partenaires (`assets/img/`)
+- [ ] Mettre à jour les statistiques (hero stat bar)
+- [ ] Connecter le formulaire de contact (Formspree ou EmailJS)
+- [ ] Ajouter `favicon.ico`
+- [ ] Configurer le domaine `reaa.tn`
 
 ---
 
-## Automated deployment via GitHub Actions (recommended)
-
-Create `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy to OVH
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /www/
-```
-
-Then add secrets in **GitHub → Settings → Secrets**:
-- `FTP_SERVER` — your OVH FTP hostname
-- `FTP_USERNAME` — your FTP login
-- `FTP_PASSWORD` — your FTP password
-
-Every push to `main` will auto-deploy to OVH. ✓
-
----
-
-## Contact form backend
-
-The form currently simulates a submission. To activate real sending, choose one:
-
-| Option | How |
-|--------|-----|
-| **Formspree** | Set `action="https://formspree.io/f/<id>"` on `<form>` and remove the JS submit handler |
-| **EmailJS** | Add the EmailJS SDK and call `emailjs.send(...)` in `main.js` |
-| **PHP mailer** | Add `mail.php` on the OVH server and `fetch('/mail.php', ...)` from `main.js` |
-
----
-
-## Customisation checklist
-
-- [ ] Replace placeholder partner logos in `assets/img/`
-- [ ] Update statistics in the hero stat bar (`index.html` lines ~40–55)
-- [ ] Add real team/member photos when a team section is added
-- [ ] Connect the contact form to a backend (see above)
-- [ ] Add `favicon.ico` / `favicon.svg`
-- [ ] Add Open Graph image (`og:image` meta tag)
-
----
-
-## Tech stack
-
-- Pure HTML5 / CSS3 / Vanilla JS (no framework, no build tool)
-- Fonts: [DM Serif Display + DM Sans](https://fonts.google.com/) via Google Fonts
-- Deployment: OVH Shared Hosting via FTP or GitHub Actions
-
----
-
-*© 2024 REAA. All rights reserved.*
-"# REAA" 
+*© 2026 REAA. All rights reserved.*
